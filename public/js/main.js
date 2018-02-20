@@ -1,4 +1,5 @@
 'use strict';
 import '../scss/style.scss';
-console.log('hello world!');
 
+// eslint-disable-next-line no-console
+console.log('hello world!');
