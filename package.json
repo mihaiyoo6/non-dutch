@@ -4,7 +4,7 @@
   "description": "We as developers like Chuck Norris jokes. Therefor we created the following assignment to test your Frontend skills/ knowledge. Please create a git repo (can be local) before you start this assignment. When committing please give a proper description to explain your choices. It should only run in chrome (so you can use es6). Please don't use any boilerplates. You can/may use any framework/lib you want. When finished send a link or send your folder(zip).",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open 'google chrome'",
     "build": "webpack",
     "build:prod": "webpack -p",
     "clean": "rm -rf dist/",
