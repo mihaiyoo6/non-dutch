@@ -1,10 +1,11 @@
 'use strict';
 import '../scss/style.scss';
-import helloTpl from '../templates/test.njk';
+import Login from '../components/Login/Login';
 
-const html = helloTpl.render({ message: 'world'});
-// eslint-disable-next-line no-console
-console.log('hello world!', html);
-document.querySelector('#app').insertAdjacentHTML('afterbegin', html);
-
-
+const loginForm = new Login();
+if (loginForm.isLogin()) {
+	document.querySelector('#app').insertAdjacentHTML('afterbegin', `<p>IS LOGIN: ${loginForm.getUserName()}</p>`);
+} else {
+	document.querySelector('#app').insertAdjacentHTML('afterbegin', loginForm.render());
+	loginForm.bindEvents();
+}

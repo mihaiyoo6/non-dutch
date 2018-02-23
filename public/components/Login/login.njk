@@ -1,0 +1,8 @@
+<form id="login">
+    <input type="text" name="name" id="name" value="{{userName}}">
+    <input name="password" id="password" maxlength="32">
+    <div id="hints">
+        {% include "./partials/hints.njk" ignore missing %}
+    </div>
+    <button type="submit" id="loginBtn" disabled=true>Login</button>
+</form>
