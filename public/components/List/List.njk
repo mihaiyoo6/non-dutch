@@ -1,0 +1,11 @@
+<ul class="js-jokes-list">
+	{% for item in items %}
+		{% include "./partials/joke.njk" ignore missing %}
+	{% endfor %}
+</ul>
+<button id="loadMore">LoadMore</button>
+<ul class="js-jokes-favorites">
+	{% for item in favorites %}
+		{% include "./partials/joke.njk" ignore missing %}
+	{% endfor %}
+</ul>

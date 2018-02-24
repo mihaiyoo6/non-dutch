@@ -1,0 +1,1 @@
+export const jokeUrl = 'http://api.icndb.com/jokes/random/${limit}';

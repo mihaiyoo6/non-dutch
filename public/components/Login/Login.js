@@ -1,24 +1,28 @@
 'use strict';
-import template from './login.njk';
+import template from './Login.njk';
 import hints from './partials/hints.njk';
 import { checkConsecutiveLetters } from '../../js/utils';
 import './Login.scss';
 
 export default class Login {
-	constructor() {
-		this.userName = '';
+	constructor(onSubmit) {
+		this.userName = this.getUserName();
 		this.password = '';
 		this.htmlElemenets = [];
+		this.onSubmit = onSubmit;
 	}
 
-	render() {
-		return template.render({ userName: this.getUserName() });
+	render(parent) {
+		return template.render({ userName: this.userName }, (err, result) => {
+			parent.innerHTML = result;
+			this.bindEvents(parent);
+		});
 	}
-	bindEvents() {
-		this.htmlElemenets.password = document.querySelector('#password');
-		this.htmlElemenets.userName = document.querySelector('#name');
-		this.htmlElemenets.loginBtn = document.querySelector('#loginBtn');
-		this.htmlElemenets.hints = document.querySelector('#hints');
+	bindEvents(scope) {
+		this.htmlElemenets.password = scope.querySelector('#password');
+		this.htmlElemenets.userName = scope.querySelector('#name');
+		this.htmlElemenets.loginBtn = scope.querySelector('#loginBtn');
+		this.htmlElemenets.hints = scope.querySelector('#hints');
 
 		this.htmlElemenets.password.addEventListener('input', e => {
 			this.password = e.target.value;
@@ -39,6 +43,7 @@ export default class Login {
 			e.preventDefault();
 			this.setSession();
 			this.setUserName();
+			this.onSubmit();
 		});
 	}
 	validate() {

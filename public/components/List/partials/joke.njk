@@ -1,0 +1,8 @@
+<li class="js-joke" data-id="{{item.id}}">
+	{{item.joke | safe}}
+	{% if item.isFavortie %}
+		<span class="js-remove"> X </span>
+	{% else %}
+		<span class="js-add-favorite"> + </span>				
+	{% endif %}
+</li>
