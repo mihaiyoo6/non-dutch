@@ -5,13 +5,16 @@ import jokeTemplate from './partials/joke.njk';
 import { handleArrayMaxLenght } from '../../js/utils';
 
 export default class List {
-	constructor(items = [], favorites = [], maxLength = 10) {
-		this.items = items;
+	constructor(items = [], favorites = [], parent, maxLength = 10) {
+		const favoritesIds = favorites.map(fav => fav.id);
+		this.items = items.filter(item => favoritesIds.indexOf(item.id) === -1);
 		this.favorites = handleArrayMaxLenght(favorites, maxLength);
 		this.maxLength = maxLength;
+		this.parent = parent;
+		this.bindEvents(parent);
 	}
 
-	render(parent) {
+	render() {
 		return template.render(
 			{
 				items: this.items,
@@ -19,8 +22,7 @@ export default class List {
 				maxLength: this.maxLength
 			},
 			(err, result) => {
-				parent.innerHTML = result;
-				this.bindEvents(parent);
+				this.parent.innerHTML = result;
 			});
 	}
 
@@ -36,7 +38,8 @@ export default class List {
 			if (target.classList.contains('js-add-favorite')) {
 				const favortieJoke = this.items.find(x => x.id == id);
 				this.items = this.items.filter(x => x.id !== id);
-				this.addFavorite(jokeEl, favortieJoke);
+				jokeEl.parentElement.removeChild(jokeEl);
+				this.addFavorite(favortieJoke);
 			}
 			if (target.classList.contains('js-remove')) {
 				this.favorites = this.favorites.filter(x => x.id !== id);
@@ -48,9 +51,6 @@ export default class List {
 	}
 
 	addItems(newItems) {
-		console.log('newItems', newItems);
-		console.log('items', this.items);
-		console.log('favorites', this.favorites);
 		const favoritesIds = this.favorites.map(fav => fav.id);
 		const itemsIds = this.items.map(item => item.id);
 		this.items = this.items
@@ -60,11 +60,10 @@ export default class List {
 		this.render(document.querySelector('#list'));
 	}
 
-	addFavorite(jokeEl, favortieJoke) {
+	addFavorite(favortieJoke) {
 		const favoritesContainer = document.querySelector('.js-jokes-favorites');
 		favortieJoke.isFavortie = true;
 		this.favorites.push(favortieJoke);
-		jokeEl.parentElement.removeChild(jokeEl);
 		if (this.favorites.length > this.maxLength) {
 			const toRemoveJoke = this.favorites.shift();
 			const toRemoveJokeEl = favoritesContainer.querySelector(`.js-joke[data-id="${toRemoveJoke.id}"]`);
@@ -78,4 +77,6 @@ export default class List {
 		const count = document.querySelector('#count');
 		count.innerHTML = `${this.favorites.length} / ${this.maxLength}`;
 	}
+
+
 }

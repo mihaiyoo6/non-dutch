@@ -1,4 +1,4 @@
-<li class="js-joke" data-id="{{item.id}}">
+<li class="js-joke" data-id="{{item.id}}" data-text="{{item.joke | safe}}">
 	{{item.joke | safe}}
 	{% if item.isFavortie %}
 		<span class="js-remove"> X </span>
