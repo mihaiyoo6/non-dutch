@@ -3,7 +3,7 @@ import '../scss/style.scss';
 import Login from '../components/Login/Login';
 import List from '../components/List/List';
 import { jokeUrl } from './constants.js';
-import loadJockes from './loadJokes';
+import loadJokes from './loadJokes';
 import errorTemplate from '../templates/error.njk';
 
 const loginForm = new Login(showJokes);
@@ -17,19 +17,32 @@ if (loginForm.isLogin()) {
 }
 
 function showJokes() {
-	const jockesContainer = appContainer.querySelector('#jokes');
-	const jockesListContainer = jockesContainer.querySelector('#list');
+	const jokesContainer = appContainer.querySelector('#jokes');
+	const jokesListContainer = jokesContainer.querySelector('#list');
 
-	loadJockes(jokeUrl, 10)
-		.then(jockesData => {
-			if (jockesData.type !== 'success') {
-				return jockesContainer.innerHTML = errorTemplate.render();
+	loadJokes(jokeUrl, 10)
+		.then(jokesData => {
+			if (jokesData.type !== 'success') {
+				return jokesContainer.innerHTML = errorTemplate.render();
 			}
 			const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-			const jockesList = new List(jockesData.value, favorites);
-			jockesList.render(jockesListContainer);
+			const jokesList = new List(jokesData.value, favorites);
+			jokesList.render(jokesListContainer);
+			handleLoadModeJokes(jokesList);
 		})
 		.catch(() => {
-			jockesContainer.innerHTML = errorTemplate.render();
+			jokesContainer.innerHTML = errorTemplate.render();
 		});
+}
+
+function handleLoadModeJokes(jokesList) {
+	const loadMoreBtn = document.querySelector('#loadMore');
+	loadMoreBtn.addEventListener('click', () => {
+		loadJokes(jokeUrl, 10).then(jokesData => {
+			if (jokesData.type !== 'success') {
+				return jokesContainer.innerHTML = errorTemplate.render();
+			}
+			jokesList.addItems(jokesData.value);
+		});
+	});
 }
