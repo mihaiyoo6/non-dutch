@@ -44,7 +44,6 @@ export default class Login {
 			this.setSession();
 			this.setUserName();
 			this.onSubmit();
-			scope.style.display = 'none';
 		});
 	}
 	validate() {
@@ -97,7 +96,7 @@ export default class Login {
 
 	}
 	setSession() {
-		sessionStorage.setItem('isLogin', true);
+		// sessionStorage.setItem('isLogin', true);
 	}
 	setUserName() {
 		localStorage.setItem('userName', this.userName);

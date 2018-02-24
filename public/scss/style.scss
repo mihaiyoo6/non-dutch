@@ -24,10 +24,6 @@ img{
   box-shadow: 0 2px 5px 1px rgba(0,0,0,.1);
 }
 
-#jokes{
-  display: none;
-}
-
 .header {
   background-color: $primary-color;
   height: 50px;
@@ -35,15 +31,37 @@ img{
 }
 
 .container{
+  position: relative;
+  height: 100%;
+  transition: transform .3s ease-in-out;
+  overflow: hidden;
+}
+.intro{
+  height: 40%;
+}
+
+.page-1{
+  position: absolute;
+  width: 100%;
   height: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
-  transition: transform .3s ease-in-out;
+  transition: transform .3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
 }
-.intro{
-  height: 40%;
+.page-1.exit{
+  transform: translateX(-100%);
+}
+
+.page-2{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform .3s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+.page-2.hidden{
+  transform: translateX(100%);
 }
 
 .login{

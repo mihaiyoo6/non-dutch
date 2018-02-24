@@ -24,7 +24,7 @@ window.onload = function () {
 function showJokes() {
 	const jokesContainer = appContainer.querySelector('#jokes');
 	const jokesListContainer = jokesContainer.querySelector('#list');
-
+	const page1 = appContainer.querySelector('.page-1');
 	loadJokes(jokeUrl, 10)
 		.then(jokesData => {
 			if (jokesData.type !== 'success') {
@@ -33,7 +33,8 @@ function showJokes() {
 			const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 			const jokesList = new List(jokesData.value, favorites, jokesListContainer);
 			jokesList.render();
-			jokesContainer.style.display = 'block';
+			jokesContainer.classList.remove('hidden');
+			page1.classList.add('exit');
 			handleLoadModeJokes(jokesList);
 			handleRandomJoke(jokesList);
 		})
