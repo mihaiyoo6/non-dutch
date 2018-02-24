@@ -1,15 +1,67 @@
-
-$font-stack: 'Roboto',Helvetica, sans-serif;
-$primary-color-dark:   #0288D1;
-$primary-color:        #03A9F4;
-$primary-color-light:  #B3E5FC;
-$primary-color-text:   #FFFFFF;
-$accent-color:         #FFEB3B;
-$primary-text-color:   #212121;
-$secondary-text-color: #757575;
-$divider-color:        #BDBDBD;
+@import './variables';
 
 body {
   font: 100% $font-stack;
   color: $primary-color;
+  background-color: $background-color;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
+img{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#app{
+  width: 90vw;
+  max-width: 960px;
+  height: 90vh;
+  background-color: $foreground-color;
+  box-shadow: 0 2px 5px 1px rgba(0,0,0,.1);
+}
+
+#jokes{
+  display: none;
+}
+
+.header {
+  background-color: $primary-color;
+  height: 50px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.container{
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  transition: transform .3s ease-in-out;
+}
+.intro{
+  height: 40%;
+}
+
+.login{
+  flex-basis: 30vh;
+  width: 80%;
+}
+
+.enter {
+  transform: scale(0);
+}
+
+@media only screen 
+  and (max-device-width: 667px)  { 
+    #app {
+    width: 100vw;
+    height: 100vh;
+  }
+  .login{
+    width: 100%;
+  }
+ }

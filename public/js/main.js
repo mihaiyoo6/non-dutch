@@ -10,12 +10,16 @@ import jokeTemplate from '../components/List/partials/joke.njk';
 const loginForm = new Login(showJokes);
 const appContainer = document.querySelector('#app');
 
-if (loginForm.isLogin()) {
-	showJokes();
-} else {
-	const loginContainer = appContainer.querySelector('#login');
-	loginForm.render(loginContainer);
-}
+window.onload = function () {
+	const container = appContainer.querySelector('.container');
+	container.classList.remove('enter');
+	if (loginForm.isLogin()) {
+		showJokes();
+	} else {
+		const loginContainer = appContainer.querySelector('#login');
+		loginForm.render(loginContainer);
+	}
+};
 
 function showJokes() {
 	const jokesContainer = appContainer.querySelector('#jokes');
@@ -29,6 +33,7 @@ function showJokes() {
 			const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 			const jokesList = new List(jokesData.value, favorites, jokesListContainer);
 			jokesList.render();
+			jokesContainer.style.display = 'block';
 			handleLoadModeJokes(jokesList);
 			handleRandomJoke(jokesList);
 		})

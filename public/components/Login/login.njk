@@ -1,8 +1,15 @@
 <form id="login">
-    <input type="text" name="name" id="name" value="{{userName}}">
-    <input name="password" id="password" maxlength="32">
-    <div id="hints">
+    <div class="group">
+        <label for="name" class="label">Name</label>
+        <input type="text" name="name" id="name" value="{{userName}}" class="input">
+    </div>
+    <div class="group">
+        <label for="password" class="label">Security code &#42</label>
+        <input name="password" type="password" id="password" maxlength="32"  class="input">
+    </div>
+    <button type="submit" id="loginBtn" disabled=true class="see-jokes-btn">See Jokes</button>
+    <div>&#42 Code that Chuck Norris has in mind</div>
+    <div id="hints" class="hints">
         {% include "./partials/hints.njk" ignore missing %}
     </div>
-    <button type="submit" id="loginBtn" disabled=true>Login</button>
 </form>

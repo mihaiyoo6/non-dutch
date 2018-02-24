@@ -44,19 +44,20 @@ export default class Login {
 			this.setSession();
 			this.setUserName();
 			this.onSubmit();
+			scope.style.display = 'none';
 		});
 	}
 	validate() {
 		const errors = [];
 		const messages = {
-			letters: 'only lower letters',
-			noSomeLetters: 'should not contain "i" "O" or "l"',
-			double: 'should contain two overlapping letters, like "aa", "bb" or "cc"',
-			consecutive: 'should contain 3 consecutive letters like "abc", "def" or "xyz"'
+			letters: 'Should contain only lower letters',
+			noSomeLetters: 'Should  not contain "i" "O" or "l"',
+			double: 'Should contain two overlapping letters, like "aa", "bb" or "cc"',
+			consecutive: 'Should contain 3 consecutive letters like "abc", "def" or "xyz"',
+			length: 'Should contain more than 2 letters but not more than 32'
 		};
 
 		if (!(/^[a-z]+$/).test(this.password)) {
-			console.log('only lower letters');
 			errors.push({
 				id: 'letters',
 				mesage: messages.letters
@@ -64,7 +65,6 @@ export default class Login {
 		}
 
 		if (!(/([a-z])\1/i).test(this.password)) {
-			console.log('should contain two overlapping letters, like "aa", "bb" or "cc"');
 			errors.push({
 				id: 'double',
 				mesage: messages.double
@@ -72,7 +72,6 @@ export default class Login {
 		}
 
 		if (!(/^[^iOl]+$/).test(this.password)) {
-			console.log('should not contain "i" "O" or "l"');
 			errors.push({
 				id: 'noSomeLetters',
 				mesage: messages.noSomeLetters
@@ -81,12 +80,16 @@ export default class Login {
 
 		if (this.password.length >= 3) {
 			if (!checkConsecutiveLetters(this.password)) {
-				console.log('should contain 3 consecutive letters like "abc", "def" or "xyz"');
 				errors.push({
 					id: 'consecutive',
 					mesage: messages.consecutive
 				});
 			}
+		} else {
+			errors.push({
+				id: 'length',
+				mesage: messages.length
+			});
 		}
 
 		this.htmlElemenets.hints.innerHTML = hints.render({ errors });
