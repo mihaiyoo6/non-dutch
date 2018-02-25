@@ -5,16 +5,24 @@ import List from '../components/List/List';
 import { jokeUrl } from './constants.js';
 import loadJokes from './loadJokes';
 import errorTemplate from '../templates/error.njk';
+import wellcomeTemplate from '../templates/wellcome-back.njk';
 import jokeTemplate from '../components/List/partials/joke.njk';
+import Store from './Store';
 
-const loginForm = new Login(showJokes);
+const userNameStore = new Store('userName');
+const isLoginStore = new Store('isLogin', false);
+const favoritesStore = new Store('favorites');
+const itemsStore = new Store('items');
+const loginForm = new Login(showJokes, userNameStore, isLoginStore);
+
 const appContainer = document.querySelector('#app');
-
+const page1 = appContainer.querySelector('.page-1');
 window.onload = function () {
 	const container = appContainer.querySelector('.container');
 	container.classList.remove('enter');
 	if (loginForm.isLogin()) {
-		showJokes();
+		page1.insertAdjacentHTML('beforeend', wellcomeTemplate.render({ userName: userNameStore.getAll() }));
+		page1.addEventListener('click', showJokes);
 	} else {
 		const loginContainer = appContainer.querySelector('#login');
 		loginForm.render(loginContainer);
@@ -24,7 +32,6 @@ window.onload = function () {
 function showJokes() {
 	const jokesContainer = appContainer.querySelector('#jokes');
 	const jokesListContainer = jokesContainer.querySelector('#list');
-	const page1 = appContainer.querySelector('.page-1');
 	loadJokes(jokeUrl, 10)
 		.then(jokesData => {
 			if (jokesData.type !== 'success') {

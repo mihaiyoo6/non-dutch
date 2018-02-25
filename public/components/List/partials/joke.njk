@@ -1,8 +1,11 @@
-<li class="js-joke" data-id="{{item.id}}" data-text="{{item.joke | safe}}">
-	{{item.joke | safe}}
+<li class="js-joke list-item" data-id="{{item.id}}" data-text="{{item.joke | safe}}">
+	<div class="list-item__text">
+		{{item.joke | safe}}
+	</div>
+	
 	{% if item.isFavortie %}
-		<span class="js-remove"> X </span>
+		<i class="js-remove material-icons list-item__icon">&#xE92B;</i>
 	{% else %}
-		<span class="js-add-favorite"> + </span>				
+		<i class="js-add-favorite material-icons list-item__icon">&#xE87E;</i>
 	{% endif %}
 </li>

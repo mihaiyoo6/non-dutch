@@ -22,12 +22,23 @@ img{
   height: 90vh;
   background-color: $foreground-color;
   box-shadow: 0 2px 5px 1px rgba(0,0,0,.1);
+  display: flex;
+  flex-direction:  column;
 }
 
 .header {
   background-color: $primary-color;
   height: 50px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  >.title{
+    color: $primary-color-text;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 }
 
 .container{
@@ -73,6 +84,27 @@ img{
   transform: scale(0);
 }
 
+.tabs{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: $primary-color;
+  text-transform: uppercase;
+
+  &-trigger{
+    text-align: center;
+    flex:1;
+    padding: 10px;
+    text-decoration: none;
+    color: $primary-color-light;
+    &.active {
+      border-bottom: 3px solid $primary-color-text;
+      color: $primary-color-text;
+    }
+  }
+
+}
+
 @media only screen 
   and (max-device-width: 667px)  { 
     #app {
@@ -83,3 +115,20 @@ img{
     width: 100%;
   }
  }
+
+ .pulsate {
+  animation: pulsate 3s ease-out;
+  animation-iteration-count: infinite; 
+  opacity: 0;
+}
+@keyframes pulsate {
+  0% { 
+      opacity: 0;
+  }
+  50% { 
+      opacity: 1.0;
+  }
+  100% { 
+      opacity: 0;
+  }
+}

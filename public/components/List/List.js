@@ -1,5 +1,6 @@
 'use strict';
 
+import './List.scss';
 import template from './List.njk';
 import jokeTemplate from './partials/joke.njk';
 import { handleArrayMaxLenght } from '../../js/utils';
@@ -71,7 +72,7 @@ export default class List {
 		}
 		favoritesContainer.innerHTML += jokeTemplate.render({ item: favortieJoke });
 		localStorage.setItem('favorites', JSON.stringify(this.favorites));
-		this.updateCount();
+		// this.updateCount();
 	}
 	updateCount() {
 		const count = document.querySelector('#count');

@@ -11,19 +11,33 @@
 </head>
 <body>
     <div id="app">
-        <div class="header"></div>
+        <div class="header">
+            <span class="title">Best jokes ever</span>
+        </div>
         <div class="container enter">
             <div class="page-1">
                 <div class="intro">
-                    <img src="http://res.cloudinary.com/mihaiyoo6/image/upload/f_auto,w_400/chuck-norris_bioope.jpg">
+                    <img src="https://res.cloudinary.com/mihaiyoo6/image/upload/f_auto,w_400/chuck-norris_bioope.jpg">
                 </div>
                 <div id="login" class="login"></div>
             </div>
             <div id="jokes" class=" page-2 hidden">
-                <div id="list"></div>
+                <div class="tabs">
+                    <a href="#favorites" class="tabs-trigger active">
+                        Favorites
+                    </a>
+                    <a href="#jokes" class="tabs-trigger">
+                        Jokes
+                    </a>
+                    <a href="#random" class="tabs-trigger">
+                        Random Joke
+                    </a>
+                </div>
+                <div id="list">
+                </div>
                 <div id="controls">
-                <button id="loadMore">LoadMore</button>
-                <input type="checkbox" id="randomBtn">get random jokes</button>
+                    <button id="loadMore">LoadMore</button>
+                    <input type="checkbox" id="randomBtn">get random jokes</button>
                 </div>
                 <div id="random"></div>
             </div>
