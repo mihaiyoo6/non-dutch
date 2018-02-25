@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +10,59 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="shortcut icon" href="favicon.ico"><link href="style.css" rel="stylesheet"></head>
+
 <body>
     <div id="app">
-        <div class="header"></div>
+        <div class="header">
+            <span class="title">Best jokes ever</span>
+        </div>
         <div class="container enter">
             <div class="page-1">
                 <div class="intro">
-                    <img src="http://res.cloudinary.com/mihaiyoo6/image/upload/f_auto,w_400/chuck-norris_bioope.jpg">
+                    <img src="https://res.cloudinary.com/mihaiyoo6/image/upload/f_auto,w_400/chuck-norris_bioope.jpg">
                 </div>
                 <div id="login" class="login"></div>
             </div>
-            <div id="jokes" class=" page-2 hidden">
-                <div id="list"></div>
-                <div id="controls">
-                <button id="loadMore">LoadMore</button>
-                <input type="checkbox" id="randomBtn">get random jokes</button>
+            <div class="page-2 hidden">
+                <div class="tabs">
+                    <div class="tabs__triggers">
+                        <div class="tabs__toggle tabs__toggle_active">Favorites</div>
+                        <div class="tabs__toggle">Jockes</div>
+                        <div class="tabs__toggle">Random Joke</div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="tabs__tab">
+                            <div id="favorites">
+                            </div>
+                        </div>
+                        <div class="tabs__tab">
+                            <div id="jokes" class="tabs-content">
+                                <div id="jokes-list"></div>
+                                <button id="loadMore">Load More</button>
+                            </div>
+                        </div>
+                        <div class="tabs__tab">
+                            <div id="random" class="tabs-content hidden">
+                                <div class="randomJokes">
+                                    <span>Get every 5s a good Joke</span>
+                                    <div class="centered">
+                                        <div class="card">
+                                            <label for="randomBtn">
+                                                <input type="checkbox" id="randomBtn" />
+                                                <span class="switch"></span>
+                                                <span class="toggle"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="random"></div>
             </div>
         </div>
-        
+
     </div>
 <script type="text/javascript" src="bundle.js"></script></body>
+
 </html>
