@@ -13,7 +13,7 @@ import initTabs from 'future-tabs';
 const userNameStore = new Store('userName');
 const isLoginStore = new Store('isLogin', false);
 const favoritesStore = new Store('favorites');
-const itemsStore = new Store('items', false);
+const jokesStore = new Store('items', false);
 const loginForm = new Login(showJokes, userNameStore, isLoginStore);
 
 const appContainer = document.querySelector('#app');
@@ -35,25 +35,32 @@ function showJokes() {
 	const jokesContainer = appContainer.querySelector('.page-2');
 	const jokesListContainer = jokesContainer.querySelector('#jokes-list');
 	const favoritesListContainer = jokesContainer.querySelector('#favorites');
+	const favorites = favoritesStore.getAll();
+	const favoriteslist = new List('favorites', favorites, favoritesListContainer);
+	const jokesList = new List('jokes', [], jokesListContainer);
+
+	jokesList.render();
+	favoriteslist.render();
+	handleRandomJoke();
+	handleLoadModeJokes(jokesList);
+	initTabs('.tabs');
+	bindEvents(jokesContainer, favoriteslist, jokesList);
+
+	jokesContainer.classList.remove('hidden');
+	page1.classList.add('exit');
+
+
 	loadJokes(jokeUrl, 10)
 		.then(jokesData => {
 			if (jokesData.type !== 'success') {
-				return jokesContainer.innerHTML = errorTemplate.render();
+				return jokesListContainer.innerHTML = errorTemplate.render();
 			}
-			itemsStore.set(jokesData.values);
-			const favorites = favoritesStore.getAll();
-			const jokesList = new List('jokes', jokesData.value, jokesListContainer);
-			const favoriteslist = new List('favorites', favorites, favoritesListContainer);
-			jokesList.render();
-			favoriteslist.render();
-			initTabs('.tabs');
-			jokesContainer.classList.remove('hidden');
-			page1.classList.add('exit');
-			handleLoadModeJokes(jokesList);
-			handleRandomJoke(jokesList);
+			jokesStore.set(jokesData.value);
+			jokesList.addItems(jokesData.value);
+
 		})
 		.catch(() => {
-			jokesContainer.innerHTML = errorTemplate.render();
+			jokesListContainer.innerHTML = errorTemplate.render();
 		});
 }
 
@@ -64,34 +71,21 @@ function handleLoadModeJokes(jokesList) {
 			if (jokesData.type !== 'success') {
 				return jokesContainer.innerHTML = errorTemplate.render();
 			}
+			jokesStore.insert(jokesData.value);
 			jokesList.addItems(jokesData.value);
 		});
 	});
 }
 
-function handleRandomJoke(jokesList) {
+function handleRandomJoke() {
 	const getRandomJokes = document.querySelector('#randomBtn');
 	let interval = null;
-	const randomContainer = document.querySelector('#random');
-	randomContainer.addEventListener('click', e => {
-		const target = e.target;
-		const jokeEl = target.classList.contains('js-joke') ? e.target : target.closest('.js-joke');
-		if (target.classList.contains('js-add-favorite')) {
-			const item = {
-				id: parseInt(jokeEl.getAttribute('data-id')),
-				joke: jokeEl.getAttribute('data-text')
-			};
-			console.log('item', item);
-			jokesList.addFavorite(item);
-		}
-	});
 	getRandomJokes.addEventListener('change', e => {
 		const fetchRandomJoke = e.target.checked;
 		if (fetchRandomJoke) {
 			loadRandomJoke();
 			interval = setInterval(loadRandomJoke, 5000);
 		} else {
-			document.querySelector('#random').innerHTML = '';
 			clearInterval(interval);
 		}
 	});
@@ -104,9 +98,55 @@ function loadRandomJoke() {
 			return randomContainer.innerHTML = errorTemplate.render();
 		}
 		const item = jokeData.value[0];
-		return jokeTemplate.render({ item }, (err, result) => {
-			console.log('addTOFavorites');
-			randomContainer.innerHTML = result;
-		});
+		return jokeTemplate.render(
+			{
+				item: Object.assign(item, { isRandom: true })
+			},
+			(err, result) => {
+				randomContainer.insertAdjacentHTML('afterbegin', result);
+			});
 	});
+}
+
+
+function bindEvents(parent, favoriteslist, jokesList) {
+	parent.addEventListener('click', e => {
+		const target = e.target;
+		const jokeEl = target.classList.contains('js-joke') ? e.target : target.closest('.js-joke');
+		if (!jokeEl) {
+			return;
+		}
+		const id = parseInt(jokeEl.getAttribute('data-id'));
+
+		if (target.classList.contains('js-add-favorite')) {
+			const item = jokesStore.remove(id);
+			jokesList.removeItem(id);
+			addFavorite(item, favoriteslist);
+		}
+
+		if (target.classList.contains('js-remove')) {
+			favoriteslist.removeItem(id);
+			favoritesStore.remove(id);
+		}
+
+
+		if (target.classList.contains('js-add-from-random')) {
+			const item = {
+				id,
+				joke: jokeEl.getAttribute('data-text')
+			};
+			jokeEl.parentNode.removeChild(jokeEl);
+			addFavorite(item, favoriteslist);
+		}
+	});
+}
+
+function addFavorite(item, favoriteslist) {
+	if (favoritesStore.getAll().length >= 10) {
+		const toRemoveItems = favoritesStore.setLength(10);
+		favoriteslist.removeItems(toRemoveItems);
+	}
+	Object.assign(item, { isFavortie: true });
+	favoritesStore.insert(item);
+	favoriteslist.addItems([item]);
 }

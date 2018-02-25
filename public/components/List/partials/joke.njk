@@ -6,6 +6,6 @@
 	{% if item.isFavortie %}
 		<i class="js-remove material-icons list-item__icon">&#xE92B;</i>
 	{% else %}
-		<i class="js-add-favorite material-icons list-item__icon">&#xE87E;</i>
+		<i class="{%if item.isRandom %} js-add-from-random {% else %}js-add-favorite {% endif %} material-icons list-item__icon">&#xE87E;</i>
 	{% endif %}
 </li>

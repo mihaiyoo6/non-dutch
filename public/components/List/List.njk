@@ -1,16 +1,17 @@
 <div class="lists-container">
-	<h4 class="list-title">{{name}}</h4>
 	<ul class="js-jokes-{{name}}  list" id="{{name}}">
+		
+		<div class="js-no-jokes-container" style="{% if items.length == 0 %}display:block{%else%} display: none;{%endif%}">
+			<div class="no-jokes">
+				<h2>No Jokes!<h2>
+				<h3>Chuck Norris was here!<h3>
+			</div>
+			<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/3o6Mbm6G6X9Xl8Wp5m" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
+		</div>
+	
 		{% for item in items %}
 			{% include "./partials/joke.njk" ignore missing %}
 		{% endfor %}
 	</ul>
-	{# <h4 class="list-title">Jokes</h4>
-	<ul class="js-jokes-list list" id="jokes">
-		{% for item in items %}
-			{% include "./partials/joke.njk" ignore missing %}
-		{% endfor %}
-		<div>{{items.length}}</div>
-	</ul> #}
 </div>
 

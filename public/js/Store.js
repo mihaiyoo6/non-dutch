@@ -17,17 +17,39 @@ export default class Store {
 
 	insert(item, callBack) {
 		const items = this.getStorage();
-		items.push(item);
+		if (Array.isArray(item)) {
+			item.forEach(x => items.push(x));
+		} else {
+			items.push(item);
+		}
 		this.setStorage(items);
+
 		if (callBack) {
 			callBack();
 		}
 	}
 
-	remove() {
-		console.log('remove');
-	}
 	getAll() {
-		return this.getStorage(this.name);
+		return this.getStorage();
+	}
+
+	find(id) {
+		const items = this.getStorage();
+		return items.find(item => item.id == id);
+	}
+
+	remove(id) {
+		const items = this.getStorage();
+		const removedItem = items.find(item => item.id === id);
+		this.setStorage(items.filter(item => item.id !== id));
+		return removedItem;
+	}
+
+	setLength(maxLength) {
+		const items = this.getStorage();
+		const remainItems = items.splice(items.length - maxLength + 1);
+		this.set(remainItems);
+		return items;
+
 	}
 }

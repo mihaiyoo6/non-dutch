@@ -24,15 +24,6 @@ export function parseTemplateString(template, map, fallback) {
 	});
 }
 
-
-export function handleArrayMaxLenght(arr, maxLength) {
-	const arrLength = arr.length;
-	if (arrLength > maxLength) {
-		return arr.splice(arrLength - maxLength);
-	}
-	return arr;
-}
-
 function get(path, obj, fb = `$\{${path}}`) {
 	return path.split('.').reduce((res, key) => res[key] || fb, obj);
 }
