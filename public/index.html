@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
     <div id="app">
         <div class="header">
@@ -21,28 +23,35 @@
                 </div>
                 <div id="login" class="login"></div>
             </div>
-            <div id="jokes" class=" page-2 hidden">
+            <div class="page-2 hidden">
                 <div class="tabs">
-                    <a href="#favorites" class="tabs-trigger active">
-                        Favorites
-                    </a>
-                    <a href="#jokes" class="tabs-trigger">
-                        Jokes
-                    </a>
-                    <a href="#random" class="tabs-trigger">
-                        Random Joke
-                    </a>
+                    <div class="tabs__triggers">
+                        <div class="tabs__toggle tabs__toggle_active">Favorites</div>
+                        <div class="tabs__toggle">Jockes</div>
+                        <div class="tabs__toggle">Random Joke</div>
+                    </div>
+                    <div class="tabs__content">
+                        <div class="tabs__tab">
+                            <div id="favorites">
+                            </div>
+                        </div>
+                        <div class="tabs__tab">
+                            <div id="jokes" class="tabs-content">
+                                <div id="jokes-list"></div>
+                                <button id="loadMore">LoadMore</button>
+                            </div>
+                        </div>
+                        <div class="tabs__tab">
+                            <div id="random" class="tabs-content hidden">
+                                <input type="checkbox" id="randomBtn">get random jokes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="list">
-                </div>
-                <div id="controls">
-                    <button id="loadMore">LoadMore</button>
-                    <input type="checkbox" id="randomBtn">get random jokes</button>
-                </div>
-                <div id="random"></div>
             </div>
         </div>
-        
+
     </div>
 </body>
+
 </html>

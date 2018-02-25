@@ -1,16 +1,16 @@
 <div class="lists-container">
-	<h4 class="list-title">Favorites</h4>
-	<ul class="js-jokes-favorites  list" id="favorites">
-		{% for item in favorites %}
+	<h4 class="list-title">{{name}}</h4>
+	<ul class="js-jokes-{{name}}  list" id="{{name}}">
+		{% for item in items %}
 			{% include "./partials/joke.njk" ignore missing %}
 		{% endfor %}
 	</ul>
-	<h4 class="list-title">Jokes</h4>
+	{# <h4 class="list-title">Jokes</h4>
 	<ul class="js-jokes-list list" id="jokes">
 		{% for item in items %}
 			{% include "./partials/joke.njk" ignore missing %}
 		{% endfor %}
 		<div>{{items.length}}</div>
-	</ul>
+	</ul> #}
 </div>
 

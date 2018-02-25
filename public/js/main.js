@@ -8,11 +8,12 @@ import errorTemplate from '../templates/error.njk';
 import wellcomeTemplate from '../templates/wellcome-back.njk';
 import jokeTemplate from '../components/List/partials/joke.njk';
 import Store from './Store';
+import initTabs from 'future-tabs';
 
 const userNameStore = new Store('userName');
 const isLoginStore = new Store('isLogin', false);
 const favoritesStore = new Store('favorites');
-const itemsStore = new Store('items');
+const itemsStore = new Store('items', false);
 const loginForm = new Login(showJokes, userNameStore, isLoginStore);
 
 const appContainer = document.querySelector('#app');
@@ -20,6 +21,7 @@ const page1 = appContainer.querySelector('.page-1');
 window.onload = function () {
 	const container = appContainer.querySelector('.container');
 	container.classList.remove('enter');
+
 	if (loginForm.isLogin()) {
 		page1.insertAdjacentHTML('beforeend', wellcomeTemplate.render({ userName: userNameStore.getAll() }));
 		page1.addEventListener('click', showJokes);
@@ -30,16 +32,21 @@ window.onload = function () {
 };
 
 function showJokes() {
-	const jokesContainer = appContainer.querySelector('#jokes');
-	const jokesListContainer = jokesContainer.querySelector('#list');
+	const jokesContainer = appContainer.querySelector('.page-2');
+	const jokesListContainer = jokesContainer.querySelector('#jokes-list');
+	const favoritesListContainer = jokesContainer.querySelector('#favorites');
 	loadJokes(jokeUrl, 10)
 		.then(jokesData => {
 			if (jokesData.type !== 'success') {
 				return jokesContainer.innerHTML = errorTemplate.render();
 			}
-			const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-			const jokesList = new List(jokesData.value, favorites, jokesListContainer);
+			itemsStore.set(jokesData.values);
+			const favorites = favoritesStore.getAll();
+			const jokesList = new List('jokes', jokesData.value, jokesListContainer);
+			const favoriteslist = new List('favorites', favorites, favoritesListContainer);
 			jokesList.render();
+			favoriteslist.render();
+			initTabs('.tabs');
 			jokesContainer.classList.remove('hidden');
 			page1.classList.add('exit');
 			handleLoadModeJokes(jokesList);

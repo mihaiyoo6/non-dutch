@@ -85,22 +85,31 @@ img{
 }
 
 .tabs{
+  height: 100%;
+  flex-direction: column;
+  flex: 1;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: $primary-color;
-  text-transform: uppercase;
-
-  &-trigger{
+  &__triggers{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: $primary-color;
+    text-transform: uppercase;
+  }
+  &__toggle {
     text-align: center;
     flex:1;
     padding: 10px;
     text-decoration: none;
     color: $primary-color-light;
-    &.active {
+    &_active {
       border-bottom: 3px solid $primary-color-text;
       color: $primary-color-text;
     }
+  }
+  &__content {
+    flex:1;
+    overflow: auto;
   }
 
 }
