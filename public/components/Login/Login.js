@@ -5,10 +5,12 @@ import { checkConsecutiveLetters } from '../../js/utils';
 import './Login.scss';
 
 export default class Login {
-	constructor(onSubmit) {
-		this.userName = this.getUserName();
+	constructor(onSubmit, userStore, loginStore) {
+		this.loginStore = loginStore;
+		this.userStore = userStore;
 		this.password = '';
 		this.htmlElemenets = [];
+		this.userName = this.getUserName();
 		this.onSubmit = onSubmit;
 	}
 
@@ -96,15 +98,15 @@ export default class Login {
 
 	}
 	setSession() {
-		// sessionStorage.setItem('isLogin', true);
+		this.loginStore.set(true);
 	}
 	setUserName() {
-		localStorage.setItem('userName', this.userName);
+		this.userStore.set(this.userName);
 	}
 	getUserName() {
-		return localStorage.getItem('userName');
+		return this.userStore.getAll();
 	}
 	isLogin() {
-		return sessionStorage.getItem('isLogin');
+		return this.loginStore.getAll().length !== 0;
 	}
 }
